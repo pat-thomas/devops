@@ -29,10 +29,19 @@ def output_current_tmux_sessions
 	current_sessions
 end
 
+def pull_off_working_directory
+	working_dir = `pwd`
+	working_dir = working_dir[0..working_dir.length-2].split("\/").last
+	working_dir
+end
+
 def create_new_session session_name
 	new_session_flag = ''
+	if session_name == '--here' then
+		session_name = pull_off_working_directory
+	end
 	while new_session_flag != 'y' or new_session_flag != 'n'
-		print "Create new session #{session_name}? (y/n) > "
+		print "Create new tmux session #{session_name}? (y/n) > "
 		new_session_flag = STDIN.gets.chomp
 		if new_session_flag == 'y' then
 			create_standard_tmux_session session_name
