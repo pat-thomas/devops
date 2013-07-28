@@ -37,9 +37,6 @@ end
 
 def create_new_session session_name
 	new_session_flag = ''
-	if session_name == '--here' then
-		session_name = pull_off_working_directory
-	end
 	while new_session_flag != 'y' or new_session_flag != 'n'
 		print "Create new tmux session #{session_name}? (y/n) > "
 		new_session_flag = STDIN.gets.chomp
@@ -54,6 +51,9 @@ def create_new_session session_name
 end
 
 new_session = ARGV.first
+if new_session == '--here' then
+	new_session = pull_off_working_directory
+end
 if new_session == nil then
 	puts "error: must enter a session name"
 	exit 1
@@ -64,7 +64,7 @@ else
 	if sessions_exist then
 		current_sessions = output_current_tmux_sessions
 		current_sessions.each do |session|
-			if session == ARGV.first then
+			if session == new_session then
 				# Found a session with the same name, prompt to either join the session or exit.
 				join = ''
 				while join != 'y' or join != 'n'
