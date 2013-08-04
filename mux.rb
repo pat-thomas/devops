@@ -52,6 +52,10 @@ def create_new_session session_name
 end
 
 new_session = ARGV.first
+if new_session == 'list' then
+	system "tmux list-sessions"
+	exit 0
+end
 if new_session == '--here' then
 	new_session = pull_off_working_directory
 end
