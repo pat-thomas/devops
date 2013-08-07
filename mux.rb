@@ -1,6 +1,11 @@
 #!/usr/bin/ruby
 # Script for opening tmux session with standard windows
 
+def shell_out_and_exit cmd
+  system "#{cmd}"
+  exit 0
+end
+
 def create_standard_tmux_session session_name
   commands = [
 	  "tmux new -d                   -s #{session_name} -n emacs",
@@ -52,10 +57,21 @@ def create_new_session session_name
 end
 
 new_session = ARGV.first
+# List sessions
 if new_session == 'list' then
-	system "tmux list-sessions"
-	exit 0
+  output_current_tmux_sessions
+  exit 0
 end
+
+# Kill specified session
+if new_session == 'kill'
+  session_to_kill = ARGV[1]
+  if not session_to_kill.nil?
+    shell_out_and_exit "tmux kill-session -t #{session_to_kill}"
+  end
+end
+
+# Create new session with the name of the current directory
 if new_session == '--here' then
 	new_session = pull_off_working_directory
 end
