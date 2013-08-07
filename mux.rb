@@ -92,11 +92,9 @@ else
 					print "Found session #{session}, join? (y/n) > "
 					join = STDIN.gets.chomp
 					if join == 'y' then
-						system "tmux attach -t #{session}"
-						exit 0
+						shell_out_and_exit "tmux attach -t #{session}"
 					elsif join == 'n' then
-						puts "exiting..."
-						exit 0
+						shell_out_and_exit "echo exiting..."
 					end
 				end
 			end
