@@ -28,10 +28,12 @@ end
 def output_current_tmux_sessions
 	current_sessions = `tmux list-sessions | cut -f1 -d:`.split("\n")
 	# List all the current sessions
-	puts "Found the following sessions:"
-	current_sessions.each do |session|
-		puts "  #{session}"
-	end
+  if not current_sessions.empty?
+    puts "Found the following sessions:"
+    current_sessions.each do |session|
+      puts "  #{session}"
+    end
+  end
 	current_sessions
 end
 
