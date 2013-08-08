@@ -17,7 +17,6 @@ def create_standard_tmux_session session_name
 	  "tmux new-window -n 'dbshell'  -t #{session_name}",
 	  "tmux new-window -n 'tests'    -t #{session_name}",
 	  "tmux new-window -n 'misc'     -t #{session_name}",
-		"tmux select-window            -t #{session_name}:0",
 	  "tmux -2 attach-session        -t #{session_name}"
 	]
 	commands.each do |cmd|
