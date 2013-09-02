@@ -6,6 +6,10 @@ def shell_out_and_exit cmd
   exit 0
 end
 
+def sessions_exist
+  system "tmux list-sessions > /dev/null 2>&1"
+end
+
 def create_standard_tmux_session session_name
   commands = [
 	  "tmux new -d                   -s #{session_name} -n emacs",
@@ -89,7 +93,6 @@ if new_session == nil then
 
 else
 
-	sessions_exist = system "tmux list-sessions > /dev/null 2>&1"
 	if sessions_exist then
 		current_sessions = output_current_tmux_sessions
 		current_sessions.each do |session|
