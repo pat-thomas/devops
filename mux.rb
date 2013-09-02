@@ -67,9 +67,12 @@ end
 
 # Kill specified session
 if new_session == 'kill'
-  session_to_kill = ARGV[1]
-  if not session_to_kill.nil?
-    shell_out_and_exit "tmux kill-session -t #{session_to_kill}"
+  sessions_to_kill = ARGV[1..-1]
+  if not sessions_to_kill.nil?
+    sessions_to_kill.each do |session|
+      system "tmux kill-session -t #{session}"
+    end
+    exit 0
   else
     puts "error: must enter a session name to kill"
     exit 0
