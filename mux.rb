@@ -29,6 +29,11 @@ def create_standard_tmux_session session_name
 	end
 end
 
+def current_tmux_sessions
+	current_sessions = `tmux list-sessions | cut -f1 -d:`.split("\n")
+  current_sessions
+end
+
 def output_current_tmux_sessions
 	current_sessions = `tmux list-sessions | cut -f1 -d:`.split("\n")
 	# List all the current sessions
@@ -94,7 +99,7 @@ if new_session == nil then
 else
 
 	if sessions_exist then
-		current_sessions = output_current_tmux_sessions
+		current_sessions = current_tmux_sessions
 		current_sessions.each do |session|
 			if session == new_session then
 				# Found a session with the same name, prompt to either join the session or exit.
