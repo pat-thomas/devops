@@ -35,15 +35,14 @@ def current_tmux_sessions
 end
 
 def output_current_tmux_sessions
-	current_sessions = `tmux list-sessions | cut -f1 -d:`.split("\n")
-	# List all the current sessions
-  if not current_sessions.empty?
+  local_current_tmux_sessions = current_tmux_sessions
+  if not local_current_tmux_sessions.empty?
     puts "Found the following sessions:"
-    current_sessions.each do |session|
+    local_current_tmux_sessions.each do |session|
       puts "-> #{session}"
     end
   end
-	current_sessions
+	local_current_tmux_sessions
 end
 
 def pull_off_working_directory
