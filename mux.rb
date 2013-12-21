@@ -12,17 +12,18 @@ end
 
 def create_standard_tmux_session session_name
   commands = [
-	  "tmux new -d                   -s #{session_name} -n emacs",
-	  "tmux new-window -n 'vim'      -t #{session_name}",
-	  "tmux new-window -n 'services' -t #{session_name}",
-	  "tmux new-window -n 'git'      -t #{session_name}",
-	  "tmux new-window -n 'repl'     -t #{session_name}",
-	  "tmux new-window -n 'remote'   -t #{session_name}",
-	  "tmux new-window -n 'dbshell'  -t #{session_name}",
-	  "tmux new-window -n 'tests'    -t #{session_name}",
-	  "tmux new-window -n 'misc'     -t #{session_name}",
-    "tmux select-window            -t #{session_name}:0",
-	  "tmux attach-session           -t #{session_name}"
+	  "tmux new -d                         -s #{session_name} -n emacs",
+	  "tmux new-window -n 'vim'            -t #{session_name}",
+	  "tmux new-window -n 'services'       -t #{session_name}",
+	  "tmux new-window -n 'build-services' -t #{session_name}",
+	  "tmux new-window -n 'git'            -t #{session_name}",
+	  "tmux new-window -n 'repl'           -t #{session_name}",
+	  "tmux new-window -n 'remote'         -t #{session_name}",
+	  "tmux new-window -n 'dbshell'        -t #{session_name}",
+	  "tmux new-window -n 'tests'          -t #{session_name}",
+	  "tmux new-window -n 'misc'           -t #{session_name}",
+    "tmux select-window                  -t #{session_name}:0",
+	  "tmux attach-session                 -t #{session_name}"
 	]
 	commands.each do |cmd|
 		system cmd
