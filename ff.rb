@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 # Find File: finds a file and copies its name to the clipboard. Prompts user if more than one file was found.
 
 def on_os name
@@ -12,7 +14,7 @@ end
 found_files = git_grep_files(ARGV.first)
 
 if (found_files.length == 1) then
-  system "copying #{found_files[0]} to clipboard"
+  puts "copying #{found_files[0]} to clipboard"
 
   if on_os "mac" then
     system "echo #{found_files[0]} | pbcopy"
