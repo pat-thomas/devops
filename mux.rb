@@ -12,17 +12,18 @@ end
 
 def create_standard_tmux_session session_name
   commands = [
-	  "tmux new -d                   -s #{session_name} -n emacs",
-	  "tmux new-window -n 'vim'      -t #{session_name}",
-	  "tmux new-window -n 'services' -t #{session_name}",
-	  "tmux new-window -n 'git'      -t #{session_name}",
-	  "tmux new-window -n 'repl'     -t #{session_name}",
-	  "tmux new-window -n 'remote'   -t #{session_name}",
-	  "tmux new-window -n 'dbshell'  -t #{session_name}",
-	  "tmux new-window -n 'tests'    -t #{session_name}",
-	  "tmux new-window -n 'misc'     -t #{session_name}",
-    "tmux select-window            -t #{session_name}:0",
-	  "tmux attach-session           -t #{session_name}"
+	  "tmux new -d                         -s #{session_name} -n emacs",
+	  "tmux new-window -n 'vim'            -t #{session_name}",
+	  "tmux new-window -n 'services'       -t #{session_name}",
+	  "tmux new-window -n 'build-services' -t #{session_name}",
+	  "tmux new-window -n 'git'            -t #{session_name}",
+	  "tmux new-window -n 'repl'           -t #{session_name}",
+	  "tmux new-window -n 'remote'         -t #{session_name}",
+	  "tmux new-window -n 'dbshell'        -t #{session_name}",
+	  "tmux new-window -n 'tests'          -t #{session_name}",
+	  "tmux new-window -n 'misc'           -t #{session_name}",
+    "tmux select-window                  -t #{session_name}:0",
+	  "tmux attach-session                 -t #{session_name}"
 	]
 	commands.each do |cmd|
 		system cmd
@@ -35,15 +36,14 @@ def current_tmux_sessions
 end
 
 def output_current_tmux_sessions
-	current_sessions = `tmux list-sessions | cut -f1 -d:`.split("\n")
-	# List all the current sessions
-  if not current_sessions.empty?
+  local_current_tmux_sessions = current_tmux_sessions
+  if not local_current_tmux_sessions.empty?
     puts "Found the following sessions:"
-    current_sessions.each do |session|
+    local_current_tmux_sessions.each do |session|
       puts "-> #{session}"
     end
   end
-	current_sessions
+	local_current_tmux_sessions
 end
 
 def pull_off_working_directory
