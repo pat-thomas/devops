@@ -8,7 +8,7 @@ def on_os name
 end
 
 def git_grep_files pattern
-  `git grep -l #{pattern}`.split("\n")
+  `git grep -l '#{pattern}'`.split("\n")
 end
 
 found_files = git_grep_files(ARGV.first)
@@ -17,9 +17,9 @@ if (found_files.length == 1) then
   puts "copying #{found_files[0]} to clipboard"
 
   if on_os "mac" then
-    system "echo #{found_files[0]} | pbcopy"
+    system "echo #{found_files[0]} | tr -d '\r\n' | pbcopy"
   elsif on_os "linux" then
-    system "echo #{found_files[0]} | xclip"
+    system "echo #{found_files[0]} | tr -d '\r\n' | xclip"
   else
     puts "error: operating system not recognized"
   end
