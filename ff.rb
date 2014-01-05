@@ -13,9 +13,11 @@ end
 
 found_files = git_grep_files(ARGV.first)
 
-if (found_files.length == 1) then
-  puts "copying #{found_files[0]} to clipboard"
+found_files.each do |file|
+  puts file
+end
 
+if (found_files.length == 1) then
   if on_os "mac" then
     system "echo #{found_files[0]} | tr -d '\r\n' | pbcopy"
   elsif on_os "linux" then
@@ -23,9 +25,4 @@ if (found_files.length == 1) then
   else
     puts "error: operating system not recognized"
   end
-  exit 0
-end
-
-found_files.each do |file|
-  puts "found #{file}"
 end
