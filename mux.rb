@@ -68,7 +68,6 @@ def create_or_join_session session_name
         create_standard_tmux_session session_name
         exit 0
       elsif new_session_flag == 'n' then
-        puts "exiting..."
         exit 0
       end
     end
@@ -78,7 +77,7 @@ end # create_or_join_session
 def attempt_to_join_existing_session session_name
   current_tmux_sessions.each do |name|
     if name == session_name then
-      system "tmux attach -t #{session}"
+      system "tmux attach -t #{session_name}"
       return true
     end
   end
