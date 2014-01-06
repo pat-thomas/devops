@@ -1,6 +1,8 @@
 #!/usr/bin/ruby
 # Script for opening tmux session with standard windows
 
+require "colorize"
+
 def create_standard_tmux_session session_name
   commands = [
 	  "tmux new -d                         -s #{session_name} -n emacs",
@@ -60,7 +62,7 @@ def create_or_join_session session_name
   if not existing_session_joined then
     new_session_flag = ""
     while new_session_flag != 'y' or new_session_flag != 'n'
-      print "Create new tmux session #{session_name}? (y/n) > "
+      print "Create new tmux session #{session_name}? (y/n) > ".blue
       new_session_flag = STDIN.gets.chomp
       if new_session_flag == 'y' then
         create_standard_tmux_session session_name
