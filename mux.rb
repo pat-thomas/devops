@@ -2,6 +2,7 @@
 # Script for opening tmux session with standard windows
 
 require "colorize"
+require "./helpers"
 
 def create_standard_tmux_session session_name
   commands = [
@@ -36,7 +37,7 @@ end # pull_off_working_directory
 
 def list_sessions sessions_to_grep_for
   if sessions_to_grep_for.empty?
-    puts "{#{current_tmux_sessions.join(',')}}"
+    puts "{#{(alternate_colors current_tmux_sessions).join(',')}}"
   else
     puts "{#{(grep_for_sessions sessions_to_grep_for).join(',')}}"
   end
