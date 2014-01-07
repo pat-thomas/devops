@@ -67,7 +67,12 @@ def create_or_join_session session_name
   if not existing_session_joined then
     new_session_flag = ""
     while new_session_flag != 'y' or new_session_flag != 'n'
-      print "Create new tmux session #{session_name}? (y/n) > ".blue
+      output_one       = "Create new tmux session".blue
+      red_session_name = (session_name.dup).red
+      output_two       = "? (y/n) >".blue
+      [output_one, red_session_name, output_two].each do |s|
+        print s + " "
+      end
       new_session_flag = STDIN.gets.chomp
       if new_session_flag == 'y' then
         create_standard_tmux_session session_name
