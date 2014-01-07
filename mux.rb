@@ -39,7 +39,7 @@ def list_sessions sessions_to_grep_for
   if sessions_to_grep_for.empty?
     puts "{#{(alternate_colors current_tmux_sessions).join(',')}}"
   else
-    puts "{#{(grep_for_sessions sessions_to_grep_for).join(',')}}"
+    puts "{#{(alternate_colors (grep_for_sessions sessions_to_grep_for)).join(',')}}"
   end
 end # list_sessions
 
