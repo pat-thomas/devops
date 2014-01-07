@@ -19,7 +19,8 @@ def create_standard_tmux_session session_name
 	  "tmux new-window -n 'dbshell'        -t #{session_name}",
 	  "tmux new-window -n 'tests'          -t #{session_name}",
 	  "tmux new-window -n 'misc'           -t #{session_name}",
-    "tmux select-window                  -t #{session_name}:0",
+    "tmux select-window                  -t #{session_name}:4", # Chances are you want to select the 'git' window on startup
+                                                                # to pull recent changes. If not, just choose a different number.
 	  "tmux attach-session                 -t #{session_name}"
 	]
 	commands.each do |cmd|
