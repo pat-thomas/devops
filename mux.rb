@@ -2,7 +2,10 @@
 # Script for opening tmux session with standard windows
 
 require "colorize"
-require "./helpers"
+require "pathname"
+
+APP_ROOT = Pathname.new(__FILE__).realpath + "../helpers"
+require "#{APP_ROOT}"
 
 def create_standard_tmux_session session_name
   commands = [
