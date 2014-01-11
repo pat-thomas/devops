@@ -68,6 +68,9 @@ def create_or_join_session session_name
     session_name = pull_off_working_directory
   end
   existing_session_joined = attempt_to_join_existing_session session_name
+  if session_name.to_i > current_tmux_sessions.length
+    exit 0
+  end
   if not existing_session_joined then
     new_session_flag = ""
     while new_session_flag != 'y' or new_session_flag != 'n'
@@ -89,9 +92,19 @@ def create_or_join_session session_name
 end # create_or_join_session
 
 def attempt_to_join_existing_session session_name
-  current_tmux_sessions.each do |name|
-    if name == session_name then
-      system "tmux attach -t #{session_name}"
+  if session_name.to_i == 0 then
+    current_tmux_sessions.each do |name|
+      if name == session_name then
+        system "tmux attach -t #{session_name}"
+        return true
+      end
+    end
+  else
+    index = session_name.to_i
+    if current_tmux_sessions.length < index then
+      return false
+    else
+      system "tmux attach -t #{current_tmux_sessions[index-1]}"
       return true
     end
   end
