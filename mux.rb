@@ -41,9 +41,13 @@ end # pull_off_working_directory
 
 def list_sessions sessions_to_grep_for
   if sessions_to_grep_for.empty?
-    puts "{#{(alternate_colors current_tmux_sessions).join(',')}}"
+    (alternate_colors current_tmux_sessions).each do |name|
+      puts name
+    end
   else
-    puts "{#{(alternate_colors (grep_for_sessions sessions_to_grep_for)).join(',')}}"
+    (alternate_colors (grep_for_sessions sessions_to_grep_for)).each do |name|
+      puts name
+    end
   end
 end # list_sessions
 
