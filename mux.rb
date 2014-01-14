@@ -119,6 +119,8 @@ def main
   case ARGV[0]
   when "list"
     list_sessions ARGV[1..-1]
+  when "suicide"
+    kill_sessions [pull_off_working_directory]
   when "kill"
     kill_sessions ARGV[1..-1]
   else
