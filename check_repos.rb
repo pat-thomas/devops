@@ -24,14 +24,8 @@ def main
     Dir.chdir full_path do
       if is_git_directory? full_path and repo_is_dirty? dir
         accum.push(full_path)
+        puts full_path
       end
-    end
-  end
-
-  if accum.size > 0
-    puts "The following repositories have uncommitted changes:"
-    accum.each do |el|
-      puts el
     end
   end
 end
