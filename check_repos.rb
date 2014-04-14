@@ -19,7 +19,7 @@ end
 
 def main
   accum = []
-  Dir.entries(@projects_root).delete_if { |d| d == '.' or d == '..' }.each do |dir|
+  Dir.entries(@projects_root).delete_if { |d| d == '.' or d == '..' or d == '.DS_Store' }.each do |dir|
     full_path = "#{@projects_root}/#{dir}"
     Dir.chdir full_path do
       if is_git_directory? full_path and repo_is_dirty? dir
