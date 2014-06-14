@@ -3,7 +3,7 @@
 
 if ARGV.length != 1
   puts 'Error: Must enter a file extension to search for.'
-  puts 'Example: fbe rb'
+  puts 'Example: fbe clj'
   exit
 end
 
