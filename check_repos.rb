@@ -1,7 +1,9 @@
 #!/usr/bin/ruby
 require "open3"
+require "json"
 
-@projects_root = "/Users/#{`whoami`}/projects".gsub("\n","")
+@projects_root
+config = JSON.parse(File.read("#{ENV['HOME']}/config.json"))
 
 def is_git_directory? dir
   git_status = Open3.popen3("git status") { |stdin, stdout, stderr, wait_thr| stdout.read() }
@@ -22,8 +24,13 @@ def prettify_directory_name directory_name
 end
 
 def main
-  Dir.entries(@projects_root).delete_if { |d| d == '.' or d == '..' or d == '.DS_Store' }.each do |dir|
-    full_path = "#{@projects_root}/#{dir}"
+  config = JSON.parse(File.read("#{ENV['HOME']}/config.json"))
+  if !config['projects_root']
+    raise "Error: no projects_root found in config. Not sure how to proceed."
+  end
+  projects_root = "#{ENV['HOME']}/#{config['projects_root']}"
+  Dir.entries(projects_root).delete_if { |d| d == '.' or d == '..' or d == '.DS_Store' }.each do |dir|
+    full_path = "#{projects_root}/#{dir}"
     Dir.chdir full_path do
       if is_git_directory? full_path and repo_is_dirty? dir
         puts prettify_directory_name(full_path)
