@@ -87,8 +87,14 @@ def suggest_sessions_from_project_directory
   
   output = Dir.entries("#{ENV['HOME']}/#{@config['projects_root']}").reject do |dir|
     dir == '.' or dir == '..'
+  end.map do |dir|
+    if current_tmux_sessions.any? { |s| s == dir }
+      dir.green
+    else
+      dir
+    end
   end.join(", ")
-
+  
   puts "Error: must provide a session name."
   puts "Try one of these projects... #{output}"
   exit 0
@@ -112,7 +118,7 @@ def prompt_for_new_session session_name
       exit 0
     end
   end
-end
+end # prompt_for_new_session
 
 def create_or_join_session session_name
   if session_name == '--here' then
