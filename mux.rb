@@ -73,7 +73,7 @@ def session_is_in_projects_directory session_name
   if !@config
     return false
   end
-  Dir.entries(@config['projects_root']).each do |dir|
+  Dir.entries("#{ENV['HOME']}/#{@config['projects_root']}").each do |dir|
     if dir == session_name
       found_session = true
     else
@@ -83,7 +83,21 @@ def session_is_in_projects_directory session_name
   found_session
 end
 
+def suggest_sessions_from_project_directory
+  
+  output = Dir.entries("#{ENV['HOME']}/#{@config['projects_root']}").reject do |dir|
+    dir == '.' or dir == '..'
+  end.join(", ")
+
+  puts "Error: must provide a session name."
+  puts "Try one of these projects... #{output}"
+  exit 0
+end
+
 def prompt_for_new_session session_name
+  if session_name.nil?
+    suggest_sessions_from_project_directory
+  end
   new_session_flag = ""
   while new_session_flag != 'y' or new_session_flag != 'n'
     output_one       = "Create new tmux session".blue
@@ -105,8 +119,8 @@ def create_or_join_session session_name
     session_name = pull_off_working_directory
   end
   existing_session_joined = attempt_to_join_existing_session session_name
-  if (session_is_in_projects_directory session_name)
-    Dir.chdir "#{@config['projects_root']}/#{session_name}"
+  if (!existing_session_joined && (session_is_in_projects_directory session_name))
+    Dir.chdir "#{ENV['HOME']}/#{@config['projects_root']}/#{session_name}"
     prompt_for_new_session session_name
   end
   if session_name.to_i > current_tmux_sessions.length
