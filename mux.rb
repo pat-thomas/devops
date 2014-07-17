@@ -84,7 +84,6 @@ def session_is_in_projects_directory session_name
 end
 
 def suggest_sessions_from_project_directory
-  
   output = Dir.entries("#{ENV['HOME']}/#{@config['projects_root']}").reject do |dir|
     dir == '.' or dir == '..'
   end.map do |dir|
