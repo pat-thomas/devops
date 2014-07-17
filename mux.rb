@@ -3,9 +3,14 @@
 
 require "colorize"
 require "pathname"
+require "json"
 
 APP_ROOT = Pathname.new(__FILE__).realpath + "../helpers"
 require "#{APP_ROOT}"
+
+def load_config
+  @config = JSON.parse(File.read("#{ENV['HOME']}/config.json"))
+end
 
 def create_standard_tmux_session session_name
   commands = [
@@ -63,29 +68,52 @@ def grep_for_sessions sessions_to_grep_for
   accum
 end # grep_for_sessions
 
+def session_is_in_projects_directory session_name
+  found_session = false
+  if !@config
+    return false
+  end
+  Dir.entries(@config['projects_root']).each do |dir|
+    if dir == session_name
+      found_session = true
+    else
+      false
+    end
+  end
+  found_session
+end
+
+def prompt_for_new_session session_name
+  new_session_flag = ""
+  while new_session_flag != 'y' or new_session_flag != 'n'
+    output_one       = "Create new tmux session".blue
+    red_session_name = (session_name.dup).red
+    output_two       = "? (y/n) >".blue
+    print output_one + " " + red_session_name + output_two + " "
+    new_session_flag = STDIN.gets.chomp
+    if new_session_flag == 'y' then
+      create_standard_tmux_session session_name
+      exit 0
+    elsif new_session_flag == 'n' then
+      exit 0
+    end
+  end
+end
+
 def create_or_join_session session_name
   if session_name == '--here' then
     session_name = pull_off_working_directory
   end
   existing_session_joined = attempt_to_join_existing_session session_name
+  if (session_is_in_projects_directory session_name)
+    Dir.chdir "#{@config['projects_root']}/#{session_name}"
+    prompt_for_new_session session_name
+  end
   if session_name.to_i > current_tmux_sessions.length
     exit 0
   end
   if not existing_session_joined then
-    new_session_flag = ""
-    while new_session_flag != 'y' or new_session_flag != 'n'
-      output_one       = "Create new tmux session".blue
-      red_session_name = (session_name.dup).red
-      output_two       = "? (y/n) >".blue
-      print output_one + " " + red_session_name + output_two + " "
-      new_session_flag = STDIN.gets.chomp
-      if new_session_flag == 'y' then
-        create_standard_tmux_session session_name
-        exit 0
-      elsif new_session_flag == 'n' then
-        exit 0
-      end
-    end
+    prompt_for_new_session session_name
   end
 end # create_or_join_session
 
@@ -116,6 +144,7 @@ def kill_sessions session_names
 end # kill_sessions
 
 def main
+  load_config
   case ARGV[0]
   when "list"
     list_sessions ARGV[1..-1]
