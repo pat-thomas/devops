@@ -164,15 +164,18 @@ end # kill_sessions
 
 def main
   load_config
-  case ARGV[0]
-  when "list"
+  words_that_look_like_list = ["list", "lst", "ist", "ls"]
+  if words_that_look_like_list.include? ARGV[0]
     list_sessions ARGV[1..-1]
-  when "suicide"
-    kill_sessions [pull_off_working_directory]
-  when "kill"
-    kill_sessions ARGV[1..-1]
   else
-    create_or_join_session ARGV[0]
+    case ARGV[0]
+    when "suicide"
+      kill_sessions [pull_off_working_directory]
+    when "kill"
+      kill_sessions ARGV[1..-1]
+    else
+      create_or_join_session ARGV[0]
+    end
   end
 end
 
