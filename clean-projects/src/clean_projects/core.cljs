@@ -5,10 +5,8 @@
 (nodejs/enable-util-print!)
 (defn -main
   [& args]
-  (-> (http/get-req "http://www.google.com"
-                 (fn [resp]
-                   (println "got resp:" (.-statusCode resp))))
-      (.on "error" (fn [resp]
-                     (println "got error:" (.-message resp))))))
+  (http/get-req "http://www.github.com"
+                (fn [resp]
+                  (println "got resp:" (.-statusCode resp)))))
 
 (set! *main-cli-fn* -main)
