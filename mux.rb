@@ -14,7 +14,8 @@ end
 
 def create_standard_tmux_session session_name
   commands = [
-	  "tmux new -d                         -s #{session_name} -n emacs",
+	  "tmux new -d                         -s #{session_name} -n emacs-clj",
+	  "tmux new-window -n 'emacs-cljs'     -t #{session_name}",
 	  "tmux new-window -n 'vim'            -t #{session_name}",
 	  "tmux new-window -n 'services'       -t #{session_name}",
 	  "tmux new-window -n 'build-services' -t #{session_name}",
@@ -22,9 +23,8 @@ def create_standard_tmux_session session_name
 	  "tmux new-window -n 'repl'           -t #{session_name}",
 	  "tmux new-window -n 'remote'         -t #{session_name}",
 	  "tmux new-window -n 'dbshell'        -t #{session_name}",
-	  "tmux new-window -n 'tests'          -t #{session_name}",
 	  "tmux new-window -n 'misc'           -t #{session_name}",
-    "tmux select-window                  -t #{session_name}:4", # Chances are you want to select the 'git' window on startup
+    "tmux select-window                  -t #{session_name}:5", # Chances are you want to select the 'git' window on startup
                                                                 # to pull recent changes. If not, just choose a different number.
 	  "tmux attach-session                 -t #{session_name}"
 	]
