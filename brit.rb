@@ -13,7 +13,7 @@ def load_config
 end
 
 def lookup_main_branch project_name
-  @git_branches_config[project_name] || "main"
+  (@git_branches_config && @git_branches_config[project_name]) || "main"
 end
 
 def run_cmd_and_notify cmd
