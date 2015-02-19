@@ -38,6 +38,12 @@ def respond_to_command cmd, ctx
     "rebase-main" => proc { |c| rebase_main c }
   }
 
+  if !cmd
+    puts "Error: must supply a command."
+    puts "Supported commands are: #{command_dispatch.keys.sort.join(', ')}."
+    exit 1
+  end
+
   impl = command_dispatch[cmd]
   if !impl
     puts "Error: #{cmd} is not a valid command."
