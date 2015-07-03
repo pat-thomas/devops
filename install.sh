@@ -20,9 +20,16 @@ function link_files_of_type () {
   done
 }
 
+function chmod_files () {
+  for f in $(ls ~/bin/); do
+    chmod 777 ~/bin/$f
+  done
+}
+
 function main () {
   link_files_of_type rb
   link_files_of_type sh
+  chmod_files
   echo "All scripts were successfully linked."
 }
 
