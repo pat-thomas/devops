@@ -2,7 +2,6 @@
 require "open3"
 require "json"
 
-@projects_root
 config = JSON.parse(File.read("#{ENV['HOME']}/config.json"))
 
 def is_git_directory? dir
