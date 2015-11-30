@@ -43,9 +43,10 @@ function main () {
   if [ "$user_input" == "" ]; then
     echo "Error: Must provide a session name."
     echo "Try one of these projects:"
-    for d in $(ls ~/projects/personal); do
+    for d in $(ls ~/projects/personal | head -n15); do
       echo $d
     done
+    echo "..."
     exit 0
   elif [ "$user_input" == "--here" ]; then
     create_or_join_session $(basename "$(pwd)")
